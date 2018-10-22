@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../" >/dev/null && pwd)"
+
+BUILD_TOOL=${1:-"buck"}
+
+if [ $BUILD_TOOL = "gradle" ]; then
+  echo "using gradle"
+  $PROJECT_ROOT/tooling/app-bundle/gradle/build-app-bundle.sh
+  $PROJECT_ROOT/tooling/app-bundle/gradle/generate-apks.sh
+  $PROJECT_ROOT/tooling/app-bundle/gradle/install.sh
+else
+  echo "using buck"
+  $PROJECT_ROOT/tooling/app-bundle/buck/build-app-bundle.sh
+fi

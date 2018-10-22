@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../" >/dev/null && pwd)"
+BUNDLE_PATH="$1"
+
+echo "Validating the app bundle"
+java -jar $PROJECT_ROOT/bundletool.jar validate --bundle $BUNDLE_PATH
