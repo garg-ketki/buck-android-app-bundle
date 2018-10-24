@@ -4,6 +4,7 @@
 .okbuck
 !app/BUCK
 .gradle
+.tmp/
 /local.properties
 /.idea/caches/build_file_checksums.ser
 /.idea/libraries
