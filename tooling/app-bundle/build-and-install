@@ -4,14 +4,24 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../" >/dev/null && pwd)"
 
+source $PROJECT_ROOT/tooling/app-bundle/common/generate-apks.sh
+source $PROJECT_ROOT/tooling/app-bundle/common/install.sh
+
 BUILD_TOOL=${1:-"buck"}
 
+rm -rf $PROJECT_ROOT/.tmp
+mkdir $PROJECT_ROOT/.tmp
+
+# Setting default paths
+APKS_PATH="$PROJECT_ROOT/.tmp/app.apks"
+BUNDLE_PATH=""
+
 if [ $BUILD_TOOL = "gradle" ]; then
-  echo "using gradle"
-  $PROJECT_ROOT/tooling/app-bundle/gradle/build-app-bundle.sh
-  $PROJECT_ROOT/tooling/app-bundle/gradle/generate-apks.sh
-  $PROJECT_ROOT/tooling/app-bundle/gradle/install.sh
+  BUNDLE_PATH="$PROJECT_ROOT/app/build/outputs/bundle/debug/app.aab"
 else
-  echo "using buck"
-  $PROJECT_ROOT/tooling/app-bundle/buck/build-app-bundle.sh
+  BUNDLE_PATH="$PROJECT_ROOT/buck-out/gen/app/bundle_debug.apk"
 fi
+
+$PROJECT_ROOT/tooling/app-bundle/$BUILD_TOOL/build-app-bundle.sh
+generate_apks $BUNDLE_PATH $APKS_PATH
+install_apks $APKS_PATH
