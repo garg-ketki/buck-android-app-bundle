@@ -1,1 +1,4 @@
 <file:.okbuck/config/okbuck.buckconfig>
+
+[alias]
+    appBundle=//app:bundle_debug

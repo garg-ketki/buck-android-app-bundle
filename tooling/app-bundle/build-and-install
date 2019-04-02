@@ -4,24 +4,21 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../" >/dev/null && pwd)"
 
-source $PROJECT_ROOT/tooling/app-bundle/common/generate-apks.sh
-source $PROJECT_ROOT/tooling/app-bundle/common/install.sh
+source $PROJECT_ROOT/tooling/app-bundle/bundletool/bundletool.sh
 
 BUILD_TOOL=${1:-"buck"}
 
-rm -rf $PROJECT_ROOT/.tmp
-mkdir $PROJECT_ROOT/.tmp
-
 # Setting default paths
-APKS_PATH="$PROJECT_ROOT/.tmp/app.apks"
-BUNDLE_PATH=""
 
-if [ $BUILD_TOOL = "gradle" ]; then
-  BUNDLE_PATH="$PROJECT_ROOT/app/build/outputs/bundle/debug/app.aab"
-else
-  BUNDLE_PATH="$PROJECT_ROOT/buck-out/gen/app/bundle_debug.apk"
-fi
+DEVICE_SPEC_PATH="$PROJECT_ROOT/results/motog_5s_plus.json"
+
+# BUNDLE_PATH="$PROJECT_ROOT/FILL_ME"
+# APKS_PATH="$PROJECT_ROOT/FILL_ME"
+# DEVICE_APKS_DIR="$PROJECT_ROOT/FILL_ME"
 
 $PROJECT_ROOT/tooling/app-bundle/$BUILD_TOOL/build-app-bundle.sh
-generate_apks $BUNDLE_PATH $APKS_PATH
-install_apks $APKS_PATH
+# generate_apks $BUNDLE_PATH $APKS_PATH
+# get_device_spec $DEVICE_SPEC_PATH
+# extract_apks $APKS_PATH $DEVICE_SPEC_PATH $DEVICE_APKS_DIR
+# install_apks $APKS_PATH
+
