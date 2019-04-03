@@ -12,13 +12,16 @@ BUILD_TOOL=${1:-"buck"}
 
 DEVICE_SPEC_PATH="$PROJECT_ROOT/results/motog_5s_plus.json"
 
-# BUNDLE_PATH="$PROJECT_ROOT/FILL_ME"
-# APKS_PATH="$PROJECT_ROOT/FILL_ME"
-# DEVICE_APKS_DIR="$PROJECT_ROOT/FILL_ME"
+BUNDLE_PATH="$PROJECT_ROOT/buck-out/gen/app/bundle_debug.aab"
+APKS_PATH="$PROJECT_ROOT/buck-out/gen/app/bundle_debug.apks"
+DEVICE_SPEC_PATH="$PROJECT_ROOT/tooling/app-bundle/specs/emulator_google_pixel_2.json"
+DEVICE_APKS_DIR="$PROJECT_ROOT/buck-out/gen/app"
+
+rm $APKS_PATH || true
 
 $PROJECT_ROOT/tooling/app-bundle/$BUILD_TOOL/build-app-bundle.sh
-# generate_apks $BUNDLE_PATH $APKS_PATH
+generate_apks $BUNDLE_PATH $APKS_PATH
 # get_device_spec $DEVICE_SPEC_PATH
-# extract_apks $APKS_PATH $DEVICE_SPEC_PATH $DEVICE_APKS_DIR
+extract_apks $APKS_PATH $DEVICE_SPEC_PATH $DEVICE_APKS_DIR
 # install_apks $APKS_PATH
 
