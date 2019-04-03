@@ -9,8 +9,7 @@ buildscript {
         targetSdkVersion = 28
 
         // App dependencies
-        kotlinVersion = '1.2.71'
-        okbuckVersion = '0.43.0'
+        okbuckVersion = '0.47.1'
     }
     repositories {
         google()
@@ -18,7 +17,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.uber:okbuck:$okbuckVersion"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -40,12 +38,21 @@ task clean(type: Delete) {
 apply plugin: 'com.uber.okbuck'
 
 okbuck {
-  target = "android-$compileSdkVersion"
-  buildToolVersion = "28.0.3"
+    target = "android-$compileSdkVersion"
+    buildToolVersion = "28.0.3"
 
-  lint {
-    disabled = true
-  }
+    lint {
+        disabled = true
+    }
 
-  extraDefs += project.file('tooling/buck-defs/DEFS')
+    ruleOverrides {
+        override {
+            nativeRuleName = "android_binary"
+            importLocation = "//tooling/buck-defs:custom_android_binary.bzl"
+            newRuleName = "custom_android_binary"
+        }
+    }
+
+    // Set a specific buck binary or alternate buck distribution.
+    buckBinary = "com.github.facebook:buck:e1fec3196532dc58cf06461ac0f3020f63f570bc@pex"
 }

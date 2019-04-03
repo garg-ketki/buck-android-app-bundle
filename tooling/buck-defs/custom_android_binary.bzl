@@ -1,18 +1,18 @@
-original_android_binary = android_binary
-def android_binary(
+
+def custom_android_binary(
     name,
     **kwargs
     ):
 
   # Create the android bundle rule as well
 
-  original_android_binary(
+  native.android_binary(
     name=name,
     **kwargs
   )
 
   bundle_name = "bundle_debug" if "debug" in name else "bundle_release"
-  android_bundle(
+  native.android_bundle(
     name=bundle_name,
     **kwargs
   )
